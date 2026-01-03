@@ -4,12 +4,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Book(models.Model):
-    READING_STATUS = [
-        ('not_started', 'Не начата'),
-        ('reading', 'Читаю'),
-        ('finished', 'Прочитана'),
-    ]
-
     GENRE_CHOICES = [
         ('fiction', 'Художественная литература'),
         ('fantasy', 'Фэнтези'),
@@ -51,12 +45,6 @@ class Book(models.Model):
     description = models.TextField(
         verbose_name='Краткое описание',
         blank=True
-    )
-    reading_status = models.CharField(
-        max_length=20,
-        choices=READING_STATUS,
-        default='not_started',
-        verbose_name='Статус чтения'
     )
     cover_image = models.ImageField(
         upload_to='book_covers/',
