@@ -55,3 +55,35 @@ class Book(models.Model):
 
     def __str__(self):
         return f'{self.title} ({self.author})'
+
+
+class UserStatus(models.Model):
+    READING_STATUS = [
+        ('not_started', 'Не начата'),
+        ('reading', 'Читаю'),
+        ('finished', 'Прочитана'),
+        ('abandoned', 'Брошена'),
+        ('planned', 'В планах'),
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='book_statuses'
+    )
+
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.CASCADE,
+        related_name='user_statuses'
+    )
+
+    reading_status = models.CharField(
+        max_length=20,
+        choices=READING_STATUS,
+        default='not_started',
+        verbose_name='Статус чтения'
+    )
+
+    def __str__(self):
+        return f'{self.user.username} - {self.book.title}: {self.reading_status}'
