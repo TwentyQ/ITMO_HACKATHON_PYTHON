@@ -257,6 +257,41 @@
             background: rgba(0,0,0,0.3);
             filter: blur(6px);
         }
+
+        .empty-book-slot {
+            width: 150px;
+            height: 200px;
+            background: rgba(0,0,0,0.1);
+            border: 3px dashed rgba(252, 162, 202, 0.5);
+            border-radius: 6px 6px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(252, 162, 202, 0.7);
+            font-size: 3rem;
+            margin: 0 auto;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .empty-book-slot:hover {
+            border-color: #fca2ca;
+            background: rgba(0,0,0,0.15);
+            color: #fca2ca;
+            transform: translateY(-5px);
+        }
+
+        .empty-book-slot:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 15px;
+            height: 100%;
+            background: rgba(252, 162, 202, 0.2);
+            border-radius: 6px 0 0 0;
+        }
     </style>
 </head>
 <body>
@@ -337,6 +372,82 @@
             </a>
             {% endif %}
         </div>
+
+        <!-- Полки с книгами -->
+        {% if books %}
+
+        <!-- 1 полка -->
+        <div class="shelf-container">
+            <div class="shelf-row">
+                {% for book in books|slice:"0:3" %}
+                <div class="book-cover-container">
+                    <!--Инфа о книге -->
+                    <div class="book-info">
+                        <div class="book-title">
+                            {{ book.title|truncatechars:20 }}
+                        </div>
+                        <div class="book-author">
+                            {{ book.author|truncatechars:15|default:"Неизвестен" }}
+                        </div>
+                        {% if book.publication_year %}
+                        <div class="book-year">
+                            {{ book.publication_year }} год
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Слот книги -->
+                    <div class="book-on-shelf">
+                        <a href="/catalog/book/?id={{ book.id }}" style="text-decoration: none;">
+                            <div class="book-cover">
+                                <div class="book-spine"></div>
+                                {% if book.cover_image %}
+                                <img src="{{ book.cover_image.url }}"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                <div class="cover-title">
+                                    {{ book.title|truncatechars:25 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </a>
+
+                        <div class="book-shadow-on-shelf"></div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Меньше 3х книг -->
+                {% for i in "123" %}
+                    {% if forloop.counter > books|slice:"0:3"|length %}
+                    <div class="book-cover-container">
+                        <!-- Пустой слот инфа -->
+                        <div class="book-info">
+                            <div class="book-title">Свободно</div>
+                            <div class="book-author">Добавьте книгу</div>
+                        </div>
+
+                        <!-- Пустой слот -->
+                        <div class="book-on-shelf">
+                            <a href="/catalog/new/" style="text-decoration: none;">
+                                <div class="empty-book-slot">
+                                    <i class="bi bi-plus-circle"></i>
+                                </div>
+                            </a>
+                            <div class="book-shadow-on-shelf"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <!-- Полка -->
+            <div class="shelf">
+                <div class="shelf-top"></div>
+            </div>
+        </div>
+
+        {% endif %}
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
