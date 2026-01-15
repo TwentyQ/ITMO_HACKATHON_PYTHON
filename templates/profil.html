@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои книги - Каталог книг - НаПолку!</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background-color: #fca2ca;
+            font-family: Franklin Gothic Medium;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background: linear-gradient(180deg, #000000 0%, #000000 100%);
+            color: white;
+            padding: 0;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .sidebar-logo {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            padding: 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid #d69acc;
+        }
+
+        .sidebar-menu a.active {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border-left: 4px solid #fca2ca;
+        }
+
+        .sidebar-menu i {
+            width: 24px;
+            margin-right: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            margin: 15px 20px;
+        }
+
+        .book-section {
+            background-color: #000000;
+            border: 2px solid #fca2ca;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .section-title {
+            color: #fca2ca;
+            border-bottom: 2px solid #fca2ca;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .book-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            border: 1px solid rgba(252, 162, 202, 0.2);
+        }
+
+        .book-card:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #fca2ca;
+            transform: translateX(5px);
+        }
+
+        .book-cover-small {
+            width: 60px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+            border: 2px solid #333;
+        }
+
+        .book-title {
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .book-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .status-reading { background-color: #0d6efd; color: white; }
+        .status-finished { background-color: #198754; color: white; }
+        .status-not_started { background-color: #6c757d; color: white; }
+        .status-planned { background-color: #ffc107; color: black; }
+        .status-abandoned { background-color: #dc3545; color: white; }
+
+        .profile-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: #000000;
+            border: 2px solid #fca2ca;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            min-width: 120px;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fca2ca;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        /* Для мобильных */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar-logo span {
+                display: none;
+            }
+
+            .sidebar-menu a span {
+                display: none;
+            }
+
+            .sidebar-menu i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .menu-divider {
+                margin: 10px;
+            }
+
+            .profile-stats {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar слева -->
+    <div class="sidebar">
+        <!-- Логотип -->
+        <div class="sidebar-logo">
+            <h4><i class="bi bi-book-half"></i> <span>НаПолку!</span></h4>
+        </div>
+
+        <!-- Меню навигации -->
+        <ul class="sidebar-menu">
+            <li>
+                <a href="/">
+                    <i class="bi bi-house-door"></i>
+                    <span>Главная</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/catalog/">
+                    <i class="bi bi-list-ul"></i>
+                    <span>Все книги</span>
+                </a>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li>
+                <a href="/catalog/new/">
+                    <i class="bi bi-plus-circle"></i>
+                    <span>Добавить книгу</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/profil/" class="active">
+                    <i class="bi bi-bookmark"></i>
+                    <span>Мои книги</span>
+                </a>
+            </li>
+            {% endif %}
+
+            <div class="menu-divider"></div>
+
+            {% if user.is_authenticated %}
+            <li>
+                <a href="#">
+                    <i class="bi bi-person-circle"></i>
+                    <span>{{ user.username }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout/">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Выйти</span>
+                </a>
+            </li>
+            {% else %}
+            <li>
+                <a href="/login/">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Войти</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Основной контент справа -->
+    <div class="main-content">
+
+        <!-- Заголовок -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 style="color: #000000;">
+                <i class="bi bi-bookmark me-2"></i>Мои книги
+            </h1>
+            <span style="color: #000000; font-size: 1.1rem;">
+                Привет, <strong>{{ user.username }}</strong>!
+            </span>
+        </div>
+
+        <!-- Статистика профиля -->
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-number">{{ total_books|default:"0" }}</div>
+                <div class="stat-label">Всего книг</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ status_groups.reading.count|default:"0" }}</div>
+                <div class="stat-label">Читаю сейчас</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ status_groups.finished.count|default:"0" }}</div>
+                <div class="stat-label">Прочитано</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ status_groups.planned.count|default:"0" }}</div>
+                <div class="stat-label">В планах</div>
+            </div>
+        </div>
+
+        <!-- Сообщения -->
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" style="background-color: #000; border: 1px solid #fca2ca; color: white;">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" style="filter: invert(1);"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Читаю сейчас -->
+        <div class="book-section">
+            <h3 class="section-title">
+                <i class="bi bi-clock-history me-2"></i>Читаю сейчас ({{ status_groups.reading.count|default:"0" }})
+            </h3>
+
+            {% if status_groups.reading %}
+                {% for status in status_groups.reading %}
+                <a href="/catalog/book/?id={{ status.book.id }}" class="text-decoration-none">
+                    <div class="book-card d-flex align-items-center">
+                        {% if status.book.cover_image %}
+                            <img src="{{ status.book.cover_image.url }}" class="book-cover-small">
+                        {% else %}
+                            <div class="book-cover-small d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #222 0%, #444 100%);">
+                                <i class="bi bi-book" style="color: #fca2ca;"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <div class="book-title">{{ status.book.title|truncatechars:40 }}</div>
+                            <div class="book-author">{{ status.book.author|truncatechars:30|default:"Автор неизвестен" }}</div>
+                            <span class="book-status status-reading">{{ status.get_reading_status_display }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-clock"></i>
+                    <p>Вы пока не читаете ни одной книги</p>
+                    <a href="/catalog/" class="btn" style="background-color: #000; color: #fca2ca; border: 2px solid #fca2ca;">
+                        <i class="bi bi-search me-1"></i> Найти книги
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Прочитано -->
+        <div class="book-section">
+            <h3 class="section-title">
+                <i class="bi bi-check-circle me-2"></i>Прочитано ({{ status_groups.finished.count|default:"0" }})
+            </h3>
+
+            {% if status_groups.finished %}
+                {% for status in status_groups.finished %}
+                <a href="/catalog/book/?id={{ status.book.id }}" class="text-decoration-none">
+                    <div class="book-card d-flex align-items-center">
+                        {% if status.book.cover_image %}
+                            <img src="{{ status.book.cover_image.url }}" class="book-cover-small">
+                        {% else %}
+                            <div class="book-cover-small d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #222 0%, #444 100%);">
+                                <i class="bi bi-book" style="color: #fca2ca;"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <div class="book-title">{{ status.book.title|truncatechars:40 }}</div>
+                            <div class="book-author">{{ status.book.author|truncatechars:30|default:"Автор неизвестен" }}</div>
+                            <span class="book-status status-finished">{{ status.get_reading_status_display }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-emoji-smile"></i>
+                    <p>Здесь появятся прочитанные вами книги</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- В планах -->
+        <div class="book-section">
+            <h3 class="section-title">
+                <i class="bi bi-calendar-check me-2"></i>В планах ({{ status_groups.planned.count|default:"0" }})
+            </h3>
+
+            {% if status_groups.planned %}
+                {% for status in status_groups.planned %}
+                <a href="/catalog/book/?id={{ status.book.id }}" class="text-decoration-none">
+                    <div class="book-card d-flex align-items-center">
+                        {% if status.book.cover_image %}
+                            <img src="{{ status.book.cover_image.url }}" class="book-cover-small">
+                        {% else %}
+                            <div class="book-cover-small d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #222 0%, #444 100%);">
+                                <i class="bi bi-book" style="color: #fca2ca;"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <div class="book-title">{{ status.book.title|truncatechars:40 }}</div>
+                            <div class="book-author">{{ status.book.author|truncatechars:30|default:"Автор неизвестен" }}</div>
+                            <span class="book-status status-planned">{{ status.get_reading_status_display }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-calendar"></i>
+                    <p>Добавьте книги, которые планируете прочитать</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Не начаты -->
+        <div class="book-section">
+            <h3 class="section-title">
+                <i class="bi bi-clock me-2"></i>Не начаты ({{ status_groups.not_started.count|default:"0" }})
+            </h3>
+
+            {% if status_groups.not_started %}
+                {% for status in status_groups.not_started|slice:":5" %}
+                <a href="/catalog/book/?id={{ status.book.id }}" class="text-decoration-none">
+                    <div class="book-card d-flex align-items-center">
+                        {% if status.book.cover_image %}
+                            <img src="{{ status.book.cover_image.url }}" class="book-cover-small">
+                        {% else %}
+                            <div class="book-cover-small d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #222 0%, #444 100%);">
+                                <i class="bi bi-book" style="color: #fca2ca;"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <div class="book-title">{{ status.book.title|truncatechars:40 }}</div>
+                            <div class="book-author">{{ status.book.author|truncatechars:30|default:"Автор неизвестен" }}</div>
+                            <span class="book-status status-not_started">{{ status.get_reading_status_display }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+
+                {% if status_groups.not_started.count > 5 %}
+                <div class="text-center mt-3">
+                    <p style="color: #888;">... и еще {{ status_groups.not_started.count|add:"-5" }} книг</p>
+                </div>
+                {% endif %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-inbox"></i>
+                    <p>Книги, которые вы добавили, но еще не начали читать</p>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Подсветка активного пункта меню
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            }
+
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Автоматическое скрытие сообщений через 5 секунд
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
