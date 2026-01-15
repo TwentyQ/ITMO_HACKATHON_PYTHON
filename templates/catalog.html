@@ -148,6 +148,21 @@
             {% endif %}
         </ul>
     </div>
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="page-title">
+                <i class="bi bi-bookshelf me-2"></i>Все книги
+            </h1>
+
+            {% if user.is_authenticated %}
+            <a href="/catalog/new/" class="btn-add-book">
+                <i class="bi bi-plus-circle"></i> Добавить книгу
+            </a>
+            {% endif %}
+        </div>
+    </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
