@@ -32,16 +32,16 @@ class Book(models.Model):
     author = models.CharField(
         max_length=100,
         verbose_name='Автор',
-        blank = True, # Можно не указывать
-        default = 'Неизвестный автор' # Значение по умолчанию
+        blank=True,  # Можно не указывать
+        default='Неизвестный автор'  # Значение по умолчанию
     )
 
     # Год издания книги
     publication_year = models.IntegerField(
         verbose_name='Год издания',
-        null=True, # Может быть пустым в БД
-        blank=True, # Можно не указывать
-        validators=[ # Проверка, что год между 1000 и 2100
+        null=True,  # Может быть пустым в БД
+        blank=True,  # Можно не указывать
+        validators=[  # Проверка, что год между 1000 и 2100
             MinValueValidator(1000),
             MaxValueValidator(2100)
         ]
@@ -50,23 +50,23 @@ class Book(models.Model):
     # Жанр книги
     genre = models.CharField(
         max_length=50,
-        choices=GENRE_CHOICES, # Можно выбрать только из списка
-        default='fiction', # Значение по умолчанию - художественная литература
+        choices=GENRE_CHOICES,  # Можно выбрать только из списка
+        default='fiction',  # Значение по умолчанию - художественная литература
         verbose_name='Жанр'
     )
 
     # Краткое описание книги
     description = models.TextField(
         verbose_name='Краткое описание',
-        blank=True # Можно не указывать
+        blank=True  # Можно не указывать
     )
 
     # Картинка обложки книги
     cover_image = models.ImageField(
-        upload_to='book_covers/', # Картинки сохраняются в папку book_covers
+        upload_to='book_covers/',  # Картинки сохраняются в папку book_covers
         verbose_name='Обложка',
-        blank=True, # Можно не загружать
-        null=True # Может быть пустым в БД
+        blank=True,  # Можно не загружать
+        null=True  # Может быть пустым в БД
     )
 
     def __str__(self):
@@ -92,23 +92,23 @@ class UserStatus(models.Model):
 
     # Ссылка на пользователя
     user = models.ForeignKey(
-        User, # Стандартная модель пользователя из Django
-        on_delete=models.CASCADE, # Если удалить пользователя, удалятся и его статусы
-        related_name='book_statuses' # Позволяет получить все статусы книг этого пользователя
+        User,  # Стандартная модель пользователя из Django
+        on_delete=models.CASCADE,  # Если удалить пользователя, удалятся и его статусы
+        related_name='book_statuses'  # Позволяет получить все статусы книг этого пользователя
     )
 
     # Ссылка на книгу
     book = models.ForeignKey(
-        Book, # Модель книги
-        on_delete=models.CASCADE, # Если удалить книгу, удалятся и статусы по ней
-        related_name='user_statuses' # Позволяет получить всех пользователей, читающих эту книгу, и их статусы
+        Book,  # Модель книги
+        on_delete=models.CASCADE,  # Если удалить книгу, удалятся и статусы по ней
+        related_name='user_statuses'  # Позволяет получить всех пользователей, читающих эту книгу, и их статусы
     )
 
     # Статус чтения
     reading_status = models.CharField(
         max_length=20,
-        choices=READING_STATUS, # Можно выбрать только из списка
-        default='not_started', # Значение по умолчанию - не начата
+        choices=READING_STATUS,  # Можно выбрать только из списка
+        default='not_started',  # Значение по умолчанию - не начата
         verbose_name='Статус чтения'
     )
 
