@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if book %}Редактировать книгу{% else %}Добавить книгу{% endif %} - НаПолку!</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background-color: #fca2ca;
+            font-family: Franklin Gothic Medium;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background: linear-gradient(180deg, #000000 0%, #000000 100%);
+            color: white;
+            padding: 0;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .sidebar-logo {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            padding: 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid #d69acc;
+        }
+
+        .sidebar-menu a.active {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border-left: 4px solid #fca2ca;
+        }
+
+        .sidebar-menu i {
+            width: 24px;
+            margin-right: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            margin: 15px 20px;
+        }
+
+        .form-card {
+            background-color: #000000;
+            border: 3px solid #fca2ca;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #000000 0%, #222222 100%);
+            padding: 25px;
+            border-bottom: 2px solid #fca2ca;
+        }
+
+        .form-body {
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar слева -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <h4><i class="bi bi-book-half"></i> <span>НаПолку!</span></h4>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li>
+                <a href="/">
+                    <i class="bi bi-house-door"></i>
+                    <span>Главная</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/catalog/">
+                    <i class="bi bi-list-ul"></i>
+                    <span>Все книги</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/catalog/new/" class="active">
+                    <i class="bi bi-plus-circle"></i>
+                    <span>Добавить книгу</span>
+                </a>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li>
+                <a href="/profil/">
+                    <i class="bi bi-bookmark"></i>
+                    <span>Мои книги</span>
+                </a>
+            </li>
+            {% endif %}
+
+            <div class="menu-divider"></div>
+
+            {% if user.is_authenticated %}
+            <li>
+                <a href="#">
+                    <i class="bi bi-person-circle"></i>
+                    <span>{{ user.username }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout/">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Выйти</span>
+                </a>
+            </li>
+            {% else %}
+            <li>
+                <a href="/login/">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Войти</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <!-- Карточка формы -->
+                <div class="form-card">
+                    <!-- Заголовок -->
+                    <div class="form-header">
+                        <h2 class="mb-0" style="color: #fca2ca;">
+                            <i class="bi bi-book me-2"></i>
+                            {% if book %}
+                                Редактировать книгу
+                            {% else %}
+                                Добавить новую книгу
+                            {% endif %}
+                        </h2>
+                        <p class="text-white-50 mb-0 mt-2">
+                            {% if book %}
+                                Внесите изменения в информацию о книге
+                            {% else %}
+                                Заполните информацию о новой книге
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
