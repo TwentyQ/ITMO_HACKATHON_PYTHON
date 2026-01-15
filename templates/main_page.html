@@ -180,7 +180,7 @@
             </li>
 
             <li>
-                <a href="/books/">
+                <a href="/catalog/">
                     <i class="bi bi-list-ul"></i>
                     <span>Все книги</span>
                 </a>
@@ -188,14 +188,14 @@
 
             {% if user.is_authenticated %}
             <li>
-                <a href="/books/new/">
+                <a href="/catalog/new/">
                     <i class="bi bi-plus-circle"></i>
                     <span>Добавить книгу</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="/profil/">
                     <i class="bi bi-bookmark"></i>
                     <span>Мои книги</span>
                 </a>
@@ -213,14 +213,14 @@
             </li>
 
             <li>
-                <a href="/accounts/logout/">
+                <a href="/logout/">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Выйти</span>
                 </a>
             </li>
             {% else %}
             <li>
-                <a href="/accounts/login/">
+                <a href="/login/">
                     <i class="bi bi-box-arrow-in-right"></i>
                     <span>Войти</span>
                 </a>
@@ -254,7 +254,7 @@
                 <div class="card stat-card text-center h-100">
                     <div class="card-body">
                         <i class="bi bi-book display-4 mb-3"></i>
-                        <h2>0</h2>
+                        <h2>{{ total_books|default:"0" }}</h2>
                         <p>Всего книг</p>
                     </div>
                 </div>
@@ -264,7 +264,7 @@
                 <div class="card stat-card text-center h-100">
                     <div class="card-body">
                         <i class="bi bi-people display-4 mb-3"></i>
-                        <h2>0</h2>
+                        <h2>{{ total_users|default:"0" }}</h2>
                         <p>Пользователей</p>
                     </div>
                 </div>
@@ -274,7 +274,7 @@
                 <div class="card stat-card text-center h-100">
                     <div class="card-body">
                         <i class="bi bi-clock-history display-4 mb-3"></i>
-                        <h2>0</h2>
+                        <h2>{{ reading_now|default:"0" }}</h2>
                         <p>Читают сейчас</p>
                     </div>
                 </div>
@@ -284,7 +284,7 @@
                 <div class="card stat-card text-center h-100">
                     <div class="card-body">
                         <i class="bi bi-star display-4 mb-3"></i>
-                        <h2>0</h2>
+                        <h2>{{ finished_books|default:"0" }}</h2>
                         <p>Прочитано</p>
                     </div>
                 </div>
@@ -309,39 +309,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for user in users %}
+                            {% for user_obj in users %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>
-                                    <strong>{{ user.username }}</strong>
-                                    {% if user == request.user %}
+                                    <strong>{{ user_obj.username }}</strong>
+                                    {% if user_obj == user %}
                                     <span class="badge" style="background-color: #fca2ca; color: black; margin-left: 8px;">Вы</span>
                                     {% endif %}
                                 </td>
                                 <td>
                                     <span class="badge" style="background-color: #000000; color: white; border: 1px solid #fca2ca;">
-                                        {{ user.book_count|default:"0" }}
+                                        {{ user_obj.book_count|default:"0" }}
                                     </span>
                                 </td>
                                 <td>
                                     <span class="badge" style="background-color: #000000; color: white; border: 1px solid #fca2ca;">
-                                        {{ user.reading_count|default:"0" }}
+                                        {{ user_obj.reading_count|default:"0" }}
                                     </span>
                                 </td>
                                 <td>
                                     <span class="badge" style="background-color: #000000; color: white; border: 1px solid #fca2ca;">
-                                        {{ user.finished_count|default:"0" }}
+                                        {{ user_obj.finished_count|default:"0" }}
                                     </span>
                                 </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="5" class="text-center py-4">
-                                        <i class="bi bi-people display-4 d-block mb-2" style="color: white;"></i>
-                                        <p style="color: white;">Пользователи пока не добавлены</p>
-                                    </td>
-                                </tr>
-                                {% endfor %}
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center py-4">
+                                    <i class="bi bi-people display-4 d-block mb-2" style="color: white;"></i>
+                                    <p style="color: white;">Пользователи пока не добавлены</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
