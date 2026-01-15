@@ -101,6 +101,39 @@
         .form-body {
             padding: 30px;
         }
+
+        .form-control, .form-select {
+            background-color: #111;
+            border: 2px solid #333;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: #111;
+            border-color: #fca2ca;
+            color: white;
+            box-shadow: 0 0 0 3px rgba(252, 162, 202, 0.2);
+        }
+
+        .form-control::placeholder {
+            color: #888;
+        }
+
+        .form-label {
+            color: #fca2ca;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-label i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -191,6 +224,115 @@
                                 Заполните информацию о новой книге
                             {% endif %}
                         </p>
+                    </div>
+
+                    <!-- Тело формы -->
+                    <div class="form-body">
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <!-- Название книги -->
+                            <div class="mb-4">
+                                <label for="title" class="form-label">
+                                    <i class="bi bi-fonts"></i>Название книги *
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="title"
+                                       name="title"
+                                       value="{{ book.title|default:'' }}"
+                                       placeholder="Введите полное название книги"
+                                       required
+                                       maxlength="200">
+                                <div class="form-text text-muted mt-1">
+                                    Обязательное поле. Максимум 200 символов.
+                                </div>
+                            </div>
+
+                            <!-- Автор -->
+                            <div class="mb-4">
+                                <label for="author" class="form-label">
+                                    <i class="bi bi-person"></i>Автор
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="author"
+                                       name="author"
+                                       value="{{ book.author|default:'' }}"
+                                       placeholder="Введите имя автора">
+                                <div class="form-text text-muted mt-1">
+                                    Если автор неизвестен, оставьте поле пустым
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Год издания -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="publication_year" class="form-label">
+                                        <i class="bi bi-calendar3"></i>Год издания
+                                    </label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="publication_year"
+                                           name="publication_year"
+                                           value="{{ book.publication_year|default:'' }}"
+                                           placeholder="Например: 2023"
+                                           min="1000"
+                                           max="2100">
+                                </div>
+
+                                <!-- Жанр -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="genre" class="form-label">
+                                        <i class="bi bi-tags"></i>Жанр
+                                    </label>
+                                    <select class="form-select" id="genre" name="genre">
+                                        <option value="">Выберите жанр...</option>
+                                        <option value="fiction" {% if book.genre == 'fiction' %}selected{% endif %}>
+                                            Художественная литература
+                                        </option>
+                                        <option value="fantasy" {% if book.genre == 'fantasy' %}selected{% endif %}>
+                                            Фэнтези
+                                        </option>
+                                        <option value="scifi" {% if book.genre == 'scifi' %}selected{% endif %}>
+                                            Научная фантастика
+                                        </option>
+                                        <option value="detective" {% if book.genre == 'detective' %}selected{% endif %}>
+                                            Детектив
+                                        </option>
+                                        <option value="romance" {% if book.genre == 'romance' %}selected{% endif %}>
+                                            Роман
+                                        </option>
+                                        <option value="biography" {% if book.genre == 'biography' %}selected{% endif %}>
+                                            Биография
+                                        </option>
+                                        <option value="history" {% if book.genre == 'history' %}selected{% endif %}>
+                                            История
+                                        </option>
+                                        <option value="science" {% if book.genre == 'science' %}selected{% endif %}>
+                                            Наука
+                                        </option>
+                                        <option value="self_help" {% if book.genre == 'self_help' %}selected{% endif %}>
+                                            Саморазвитие
+                                        </option>
+                                        <option value="other" {% if book.genre == 'other' %}selected{% endif %}>
+                                            Другое
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Кнопка отправки -->
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {% if book %}
+                                        Сохранить изменения
+                                    {% else %}
+                                        Добавить книгу
+                                    {% endif %}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
