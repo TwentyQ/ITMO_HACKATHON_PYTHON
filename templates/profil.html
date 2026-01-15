@@ -15,7 +15,6 @@
             font-family: Franklin Gothic Medium;
         }
 
-        /* Sidebar слева */
         .sidebar {
             position: fixed;
             top: 0;
@@ -29,21 +28,18 @@
             z-index: 1000;
         }
 
-        /* Основной контент справа */
         .main-content {
             margin-left: 250px;
             padding: 20px;
             min-height: 100vh;
         }
 
-        /* Логотип в сайдбаре */
         .sidebar-logo {
             padding: 20px;
             text-align: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Меню в сайдбаре */
         .sidebar-menu {
             list-style: none;
             padding: 20px 0;
@@ -82,14 +78,12 @@
             color: white;
         }
 
-        /* Разделитель в меню */
         .menu-divider {
             height: 1px;
             background: rgba(255,255,255,0.2);
             margin: 15px 20px;
         }
 
-        /* Секции книг */
         .book-section {
             background-color: #000000;
             border: 2px solid #fca2ca;
@@ -107,7 +101,6 @@
             font-size: 1.5rem;
         }
 
-        /* Карточка книги */
         .book-card {
             background: rgba(255,255,255,0.05);
             border-radius: 8px;
@@ -160,7 +153,6 @@
         .status-planned { background-color: #ffc107; color: black; }
         .status-abandoned { background-color: #dc3545; color: white; }
 
-        /* Статистика профиля */
         .profile-stats {
             display: flex;
             gap: 15px;
@@ -190,7 +182,6 @@
             font-size: 0.9rem;
         }
 
-        /* Пустое состояние */
         .empty-state {
             text-align: center;
             padding: 40px;
@@ -203,7 +194,7 @@
             color: #666;
         }
 
-        /* Адаптивность */
+        /* Для мобильных */
         @media (max-width: 768px) {
             .sidebar {
                 width: 70px;
@@ -336,6 +327,18 @@
             </div>
         </div>
 
+        <!-- Сообщения -->
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" style="background-color: #000; border: 1px solid #fca2ca; color: white;">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" style="filter: invert(1);"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <!-- Читаю сейчас -->
         <div class="book-section">
             <h3 class="section-title">
@@ -438,9 +441,71 @@
             {% endif %}
         </div>
 
+        <!-- Не начаты -->
+        <div class="book-section">
+            <h3 class="section-title">
+                <i class="bi bi-clock me-2"></i>Не начаты ({{ status_groups.not_started.count|default:"0" }})
+            </h3>
+
+            {% if status_groups.not_started %}
+                {% for status in status_groups.not_started|slice:":5" %}
+                <a href="/catalog/book/?id={{ status.book.id }}" class="text-decoration-none">
+                    <div class="book-card d-flex align-items-center">
+                        {% if status.book.cover_image %}
+                            <img src="{{ status.book.cover_image.url }}" class="book-cover-small">
+                        {% else %}
+                            <div class="book-cover-small d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #222 0%, #444 100%);">
+                                <i class="bi bi-book" style="color: #fca2ca;"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <div class="book-title">{{ status.book.title|truncatechars:40 }}</div>
+                            <div class="book-author">{{ status.book.author|truncatechars:30|default:"Автор неизвестен" }}</div>
+                            <span class="book-status status-not_started">{{ status.get_reading_status_display }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+
+                {% if status_groups.not_started.count > 5 %}
+                <div class="text-center mt-3">
+                    <p style="color: #888;">... и еще {{ status_groups.not_started.count|add:"-5" }} книг</p>
+                </div>
+                {% endif %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-inbox"></i>
+                    <p>Книги, которые вы добавили, но еще не начали читать</p>
+                </div>
+            {% endif %}
+        </div>
+
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Подсветка активного пункта меню
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            }
+
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Автоматическое скрытие сообщений через 5 секунд
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
 </body>
 </html>
