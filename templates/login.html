@@ -240,5 +240,40 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Фокус на поле ввода при загрузке
+        document.getElementById('username').focus();
+
+        // Показать/скрыть пароль
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordField = document.getElementById('password');
+            const toggleButton = document.createElement('button');
+            toggleButton.type = 'button';
+            toggleButton.className = 'btn btn-sm position-absolute end-0 top-50 translate-middle-y me-3';
+            toggleButton.innerHTML = '<i class="bi bi-eye"></i>';
+            toggleButton.style.background = 'transparent';
+            toggleButton.style.border = 'none';
+            toggleButton.style.color = '#888';
+
+            const inputGroup = passwordField.parentElement;
+            inputGroup.style.position = 'relative';
+            inputGroup.appendChild(toggleButton);
+
+            toggleButton.addEventListener('click', function() {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+            });
+        });
+
+        // Убираем неправильное выделение при фокусе
+        document.querySelectorAll('input, button').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.outline = 'none';
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
 </body>
 </html>
