@@ -42,7 +42,6 @@
             padding: 40px;
         }
 
-
         .form-control {
             background-color: #111;
             border: 2px solid #333;
@@ -114,9 +113,52 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
+
+        .book-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .book-1 {
+            top: 10%;
+            left: 10%;
+            font-size: 3rem;
+            transform: rotate(-15deg);
+        }
+
+        .book-2 {
+            bottom: 10%;
+            right: 10%;
+            font-size: 4rem;
+            transform: rotate(15deg);
+        }
+
+        /* Для мобильных */
+        @media (max-width: 576px) {
+            .login-card {
+                border: 2px solid #fca2ca;
+            }
+
+            .login-body {
+                padding: 30px 20px;
+            }
+
+            .login-header {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Декоративные книги на фоне -->
+    <div class="book-decoration book-1">
+        <i class="bi bi-book"></i>
+    </div>
+    <div class="book-decoration book-2">
+        <i class="bi bi-book-half"></i>
+    </div>
+
     <!-- Основная карточка входа -->
     <div class="login-card">
         <!-- Заголовок -->
@@ -180,6 +222,18 @@
                 <button type="submit" class="btn-login">
                     <i class="bi bi-box-arrow-in-right me-2"></i>Войти в систему
                 </button>
+
+                <!-- Дополнительные ссылки -->
+                <div class="text-center mt-4 pt-3 border-top border-secondary">
+                    <p class="text-white-50 mb-2">Нет аккаунта?</p>
+                    <a href="/register/" class="login-link d-inline-block mb-3">
+                        <i class="bi bi-person-plus me-1"></i>Зарегистрироваться
+                    </a>
+                    <br>
+                    <a href="/" class="login-link d-inline-block">
+                        <i class="bi bi-house me-1"></i>На главную
+                    </a>
+                </div>
             </form>
         </div>
     </div>
