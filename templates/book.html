@@ -96,6 +96,15 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
+        .book-cover {
+            width: 250px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #fca2ca;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
         .book-title {
             color: #fca2ca;
             font-size: 2.5rem;
@@ -110,6 +119,45 @@
 
         .book-info strong {
             color: #fca2ca;
+        }
+
+        .section-title {
+            color: #fca2ca;
+            border-bottom: 2px solid #fca2ca;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar-logo span {
+                display: none;
+            }
+
+            .sidebar-menu a span {
+                display: none;
+            }
+
+            .sidebar-menu i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .menu-divider {
+                margin: 10px;
+            }
+
+            .book-cover {
+                width: 200px;
+                height: 280px;
+            }
         }
     </style>
 </head>
@@ -186,11 +234,31 @@
             </h1>
 
             <div class="row">
+                <div class="col-md-4 text-center">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image.url }}" class="book-cover mb-3">
+                    {% else %}
+                        <div class="book-cover mb-3 d-flex align-items-center justify-content-center"
+                             style="background: linear-gradient(135deg, #222 0%, #444 100%);">
+                            <i class="bi bi-book display-1" style="color: #fca2ca;"></i>
+                        </div>
+                    {% endif %}
+                </div>
+
                 <div class="col-md-8">
                     <div class="book-info">
                         <p><strong><i class="bi bi-person me-2"></i>Автор:</strong> {{ book.author|default:"Неизвестный автор" }}</p>
                         <p><strong><i class="bi bi-calendar3 me-2"></i>Год издания:</strong> {{ book.publication_year|default:"Не указан" }}</p>
                         <p><strong><i class="bi bi-tags me-2"></i>Жанр:</strong> {{ book.get_genre_display }}</p>
+
+                        {% if book.description %}
+                        <div class="mt-4">
+                            <h5 class="section-title"><i class="bi bi-text-paragraph me-2"></i>Описание</h5>
+                            <div style="line-height: 1.6; color: #ccc;">
+                                {{ book.description|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
