@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Все книги - Каталог книг - НаПолку!</title>
 
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
@@ -102,13 +103,6 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
             color: #ffffff;
-        }
-
-        .page-title {
-            color: #000000;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 30px;
         }
 
         .shelf-container {
@@ -233,31 +227,6 @@
             width: calc(100% - 20px);
         }
 
-        .book-on-shelf {
-            position: relative;
-        }
-
-        .book-shadow-on-shelf {
-            width: 140px;
-            height: 8px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 50%;
-            margin: 0 auto;
-            filter: blur(4px);
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: all 0.3s;
-            z-index: 1;
-        }
-
-        .book-cover-container:hover .book-shadow-on-shelf {
-            width: 160px;
-            background: rgba(0,0,0,0.3);
-            filter: blur(6px);
-        }
-
         .empty-book-slot {
             width: 150px;
             height: 200px;
@@ -291,6 +260,153 @@
             height: 100%;
             background: rgba(252, 162, 202, 0.2);
             border-radius: 6px 0 0 0;
+        }
+
+        .book-on-shelf {
+            position: relative;
+        }
+
+        .book-shadow-on-shelf {
+            width: 140px;
+            height: 8px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            margin: 0 auto;
+            filter: blur(4px);
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .book-cover-container:hover .book-shadow-on-shelf {
+            width: 160px;
+            background: rgba(0,0,0,0.3);
+            filter: blur(6px);
+        }
+
+        .page-title {
+            color: #000000;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .empty-shelf-container {
+            position: relative;
+            margin: 60px 0;
+        }
+
+        .empty-shelf {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 15px;
+            border: 3px dashed #000000;
+            position: relative;
+            z-index: 2;
+        }
+
+        .empty-shelf-icon {
+            font-size: 4rem;
+            color: #000000;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-shelf-text {
+            color: #000000;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-shelf-shelf {
+            background: #000000;
+            height: 25px;
+            width: 100%;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 2px solid #fca2ca;
+            border-top: none;
+            position: relative;
+            z-index: 1;
+            margin-top: -10px;
+        }
+
+        /* Для мобильных */
+        @media (max-width: 992px) {
+            .book-cover-container {
+                width: 160px;
+            }
+
+            .book-cover {
+                width: 130px;
+                height: 180px;
+            }
+
+            .empty-book-slot {
+                width: 130px;
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar-logo span {
+                display: none;
+            }
+
+            .sidebar-menu a span {
+                display: none;
+            }
+
+            .sidebar-menu i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .menu-divider {
+                margin: 10px;
+            }
+
+            .shelf-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+                margin-bottom: 20px;
+            }
+
+            .book-cover-container {
+                width: 200px;
+                margin-bottom: 30px;
+            }
+
+            .book-cover {
+                width: 160px;
+                height: 210px;
+            }
+
+            .empty-book-slot {
+                width: 160px;
+                height: 210px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .shelf-container {
+                margin: 30px 0;
+            }
         }
     </style>
 </head>
@@ -361,6 +477,7 @@
 
     <!-- Основной контент -->
     <div class="main-content">
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="page-title">
                 <i class="bi bi-bookshelf me-2"></i>Все книги
@@ -373,15 +490,15 @@
             {% endif %}
         </div>
 
-        <!-- Полки с книгами -->
+        <!-- Полки -->
         {% if books %}
 
-        <!-- 1 полка -->
+        <!-- Полка 1 -->
         <div class="shelf-container">
             <div class="shelf-row">
                 {% for book in books|slice:"0:3" %}
                 <div class="book-cover-container">
-                    <!--Инфа о книге -->
+                    <!-- Инфа о книге -->
                     <div class="book-info">
                         <div class="book-title">
                             {{ book.title|truncatechars:20 }}
@@ -396,7 +513,7 @@
                         {% endif %}
                     </div>
 
-                    <!-- Слот книги -->
+                    <!-- Книга на полке -->
                     <div class="book-on-shelf">
                         <a href="/catalog/book/?id={{ book.id }}" style="text-decoration: none;">
                             <div class="book-cover">
@@ -417,7 +534,6 @@
                 </div>
                 {% endfor %}
 
-                <!-- Меньше 3х книг -->
                 {% for i in "123" %}
                     {% if forloop.counter > books|slice:"0:3"|length %}
                     <div class="book-cover-container">
@@ -440,16 +556,174 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            <!-- Полка -->
+
             <div class="shelf">
                 <div class="shelf-top"></div>
             </div>
         </div>
 
+        <!-- Полка 2 -->
+        {% if books|length > 3 %}
+        <div class="shelf-container">
+            <div class="shelf-row">
+                {% for book in books|slice:"3:6" %}
+                <div class="book-cover-container">
+                    <!-- Инфа о книге -->
+                    <div class="book-info">
+                        <div class="book-title">
+                            {{ book.title|truncatechars:20 }}
+                        </div>
+                        <div class="book-author">
+                            {{ book.author|truncatechars:15|default:"Неизвестен" }}
+                        </div>
+                        {% if book.publication_year %}
+                        <div class="book-year">
+                            {{ book.publication_year }} год
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Книга на полке -->
+                    <div class="book-on-shelf">
+                        <a href="/catalog/book/?id={{ book.id }}" style="text-decoration: none;">
+                            <div class="book-cover">
+                                <div class="book-spine"></div>
+                                {% if book.cover_image %}
+                                <img src="{{ book.cover_image.url }}"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                <div class="cover-title">
+                                    {{ book.title|truncatechars:25 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <div class="book-shadow-on-shelf"></div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% for i in "123" %}
+                    {% if forloop.counter > books|slice:"3:6"|length %}
+                    <div class="book-cover-container">
+                        <!-- Пустой слот инфа -->
+                        <div class="book-info">
+                            <div class="book-title">Свободно</div>
+                            <div class="book-author">Добавьте книгу</div>
+                        </div>
+
+                        <!-- Пустой слот -->
+                        <div class="book-on-shelf">
+                            <a href="/catalog/new/" style="text-decoration: none;">
+                                <div class="empty-book-slot">
+                                    <i class="bi bi-plus-circle"></i>
+                                </div>
+                            </a>
+                            <div class="book-shadow-on-shelf"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="shelf">
+                <div class="shelf-top"></div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Полка 3 -->
+        {% if books|length > 6 %}
+        <div class="shelf-container">
+            <div class="shelf-row">
+                {% for book in books|slice:"6:9" %}
+                <div class="book-cover-container">
+                    <!-- Инфа о книге -->
+                    <div class="book-info">
+                        <div class="book-title">
+                            {{ book.title|truncatechars:20 }}
+                        </div>
+                        <div class="book-author">
+                            {{ book.author|truncatechars:15|default:"Неизвестен" }}
+                        </div>
+                        {% if book.publication_year %}
+                        <div class="book-year">
+                            {{ book.publication_year }} год
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Книга на полке -->
+                    <div class="book-on-shelf">
+                        <a href="/catalog/book/?id={{ book.id }}" style="text-decoration: none;">
+                            <div class="book-cover">
+                                <div class="book-spine"></div>
+                                {% if book.cover_image %}
+                                <img src="{{ book.cover_image.url }}"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                <div class="cover-title">
+                                    {{ book.title|truncatechars:25 }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <div class="book-shadow-on-shelf"></div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% for i in "123" %}
+                    {% if forloop.counter > books|slice:"6:9"|length %}
+                    <div class="book-cover-container">
+                        <!-- Пустой слот инфа-->
+                        <div class="book-info">
+                            <div class="book-title">Свободно</div>
+                            <div class="book-author">Добавьте книгу</div>
+                        </div>
+
+                        <!-- Пустой слот -->
+                        <div class="book-on-shelf">
+                            <a href="/catalog/new/" style="text-decoration: none;">
+                                <div class="empty-book-slot">
+                                    <i class="bi bi-plus-circle"></i>
+                                </div>
+                            </a>
+                            <div class="book-shadow-on-shelf"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="shelf">
+                <div class="shelf-top"></div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Если нет книг -->
+        {% else %}
+        <div class="empty-shelf-container">
+            <div class="empty-shelf">
+                <i class="bi bi-bookshelf empty-shelf-icon"></i>
+                <h3 class="empty-shelf-text">Полки пусты</h3>
+                <p style="color: #000000; font-size: 1.1rem; margin-bottom: 30px;">Добавьте первую книгу на полку!</p>
+                {% if user.is_authenticated %}
+                <a href="/catalog/new/" class="btn-add-book">
+                    <i class="bi bi-plus-circle"></i> Добавить первую книгу
+                </a>
+                {% else %}
+                <a href="/login/" class="btn-add-book">
+                    <i class="bi bi-box-arrow-in-right"></i> Войти и добавить книгу
+                </a>
+                {% endif %}
+            </div>
+            <div class="empty-shelf-shelf"></div>
+        </div>
         {% endif %}
 
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
