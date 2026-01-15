@@ -113,9 +113,52 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
+
+        .book-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .book-1 {
+            top: 10%;
+            left: 10%;
+            font-size: 3rem;
+            transform: rotate(-15deg);
+        }
+
+        .book-2 {
+            bottom: 10%;
+            right: 10%;
+            font-size: 4rem;
+            transform: rotate(15deg);
+        }
+
+        /* Для мобильных */
+        @media (max-width: 576px) {
+            .login-card {
+                border: 2px solid #fca2ca;
+            }
+
+            .login-body {
+                padding: 30px 20px;
+            }
+
+            .login-header {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Декоративные книги на фоне -->
+    <div class="book-decoration book-1">
+        <i class="bi bi-book"></i>
+    </div>
+    <div class="book-decoration book-2">
+        <i class="bi bi-book-half"></i>
+    </div>
+
     <!-- Основная карточка регистрации -->
     <div class="login-card">
         <!-- Заголовок -->
@@ -213,5 +256,80 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Фокус на поле ввода при загрузке
+        document.getElementById('username').focus();
+
+        // Показать/скрыть пароль
+        document.addEventListener('DOMContentLoaded', function() {
+            const password1 = document.getElementById('password1');
+            const password2 = document.getElementById('password2');
+
+            // Для первого пароля
+            const toggleButton1 = document.createElement('button');
+            toggleButton1.type = 'button';
+            toggleButton1.className = 'btn btn-sm position-absolute end-0 top-50 translate-middle-y me-3';
+            toggleButton1.innerHTML = '<i class="bi bi-eye"></i>';
+            toggleButton1.style.background = 'transparent';
+            toggleButton1.style.border = 'none';
+            toggleButton1.style.color = '#888';
+
+            const inputGroup1 = password1.parentElement;
+            inputGroup1.style.position = 'relative';
+            inputGroup1.appendChild(toggleButton1);
+
+            toggleButton1.addEventListener('click', function() {
+                const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+                password1.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+            });
+
+            // Для второго пароля
+            const toggleButton2 = document.createElement('button');
+            toggleButton2.type = 'button';
+            toggleButton2.className = 'btn btn-sm position-absolute end-0 top-50 translate-middle-y me-3';
+            toggleButton2.innerHTML = '<i class="bi bi-eye"></i>';
+            toggleButton2.style.background = 'transparent';
+            toggleButton2.style.border = 'none';
+            toggleButton2.style.color = '#888';
+
+            const inputGroup2 = password2.parentElement;
+            inputGroup2.style.position = 'relative';
+            inputGroup2.appendChild(toggleButton2);
+
+            toggleButton2.addEventListener('click', function() {
+                const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+                password2.setAttribute('type', type);
+                this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+            });
+        });
+
+        // Убираем выделение неправильного цвета при фокусе
+        document.querySelectorAll('input, button').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.outline = 'none';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Простая валидация паролей
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password1 = document.getElementById('password1').value;
+            const password2 = document.getElementById('password2').value;
+
+            if (password1 !== password2) {
+                e.preventDefault();
+                alert('Пароли не совпадают!');
+                return false;
+            }
+
+            if (password1.length < 8) {
+                e.preventDefault();
+                alert('Пароль должен содержать минимум 8 символов!');
+                return false;
+            }
+        });
+    </script>
 </body>
 </html>
