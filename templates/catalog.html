@@ -150,6 +150,113 @@
             position: relative;
             z-index: 2;
         }
+
+        .book-cover-container {
+            width: 180px;
+            text-align: center;
+            transition: transform 0.3s;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .book-cover-container:hover {
+            transform: translateY(-15px);
+        }
+
+        .book-info {
+            margin-bottom: 15px;
+            padding: 10px;
+        }
+
+        .book-title {
+            color: #000000;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .book-author {
+            color: #000000;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .book-year {
+            color: #666;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        .book-cover {
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            margin: 0 auto;
+            border-radius: 6px 6px 0 0;
+            box-shadow:
+                0 4px 8px rgba(0,0,0,0.2),
+                0 10px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid #000;
+            border-bottom: 3px solid #fca2ca;
+        }
+
+        .book-cover:hover {
+            border-color: #fca2ca;
+            box-shadow:
+                0 8px 16px rgba(0,0,0,0.3),
+                0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .book-spine {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 15px;
+            height: 100%;
+            background: linear-gradient(to right, #222 0%, #444 50%, #222 100%);
+            border-right: 1px solid #000;
+        }
+
+        .cover-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fca2ca;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 10px;
+            width: calc(100% - 20px);
+        }
+
+        .book-on-shelf {
+            position: relative;
+        }
+
+        .book-shadow-on-shelf {
+            width: 140px;
+            height: 8px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            margin: 0 auto;
+            filter: blur(4px);
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        .book-cover-container:hover .book-shadow-on-shelf {
+            width: 160px;
+            background: rgba(0,0,0,0.3);
+            filter: blur(6px);
+        }
     </style>
 </head>
 <body>
