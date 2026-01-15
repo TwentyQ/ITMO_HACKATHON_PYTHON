@@ -15,6 +15,7 @@
             font-family: Franklin Gothic Medium;
         }
 
+        /* Сайдбар */
         .sidebar {
             position: fixed;
             top: 0;
@@ -84,6 +85,7 @@
             margin: 15px 20px;
         }
 
+        /* Форма */
         .form-card {
             background-color: #000000;
             border: 3px solid #fca2ca;
@@ -102,6 +104,7 @@
             padding: 30px;
         }
 
+        /* Поля формы */
         .form-control, .form-select {
             background-color: #111;
             border: 2px solid #333;
@@ -122,6 +125,7 @@
             color: #888;
         }
 
+        /* Метки */
         .form-label {
             color: #fca2ca;
             font-weight: 500;
@@ -134,212 +138,471 @@
             margin-right: 10px;
             font-size: 1.1rem;
         }
+
+        /* Загрузка файлов */
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .file-upload-btn {
+            background-color: #222;
+            color: #fca2ca;
+            border: 2px solid #fca2ca;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .file-upload-btn:hover {
+            background-color: #fca2ca;
+            color: #000;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Превью обложки */
+        .cover-preview {
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(135deg, #222 0%, #444 100%);
+            border-radius: 8px;
+            border: 2px solid #333;
+            overflow: hidden;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fca2ca;
+        }
+
+        /* Кнопки */
+        .btn-submit {
+            background: linear-gradient(135deg, #fca2ca 0%, #e891b8 100%);
+            color: #000;
+            border: none;
+            padding: 14px 30px;
+            font-weight: bold;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #ffb6d9 0%, #fca2ca 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(252, 162, 202, 0.4);
+        }
+
+        .btn-cancel {
+            background-color: #222;
+            color: #fca2ca;
+            border: 2px solid #fca2ca;
+            padding: 12px 25px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background-color: #333;
+            color: #ffb6d9;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar-logo span {
+                display: none;
+            }
+
+            .sidebar-menu a span {
+                display: none;
+            }
+
+            .sidebar-menu i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .menu-divider {
+                margin: 10px;
+            }
+
+            .form-body {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Sidebar слева -->
-    <div class="sidebar">
-        <div class="sidebar-logo">
-            <h4><i class="bi bi-book-half"></i> <span>НаПолку!</span></h4>
-        </div>
-
-        <ul class="sidebar-menu">
-            <li>
-                <a href="/">
-                    <i class="bi bi-house-door"></i>
-                    <span>Главная</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/catalog/">
-                    <i class="bi bi-list-ul"></i>
-                    <span>Все книги</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/catalog/new/" class="active">
-                    <i class="bi bi-plus-circle"></i>
-                    <span>Добавить книгу</span>
-                </a>
-            </li>
-
-            {% if user.is_authenticated %}
-            <li>
-                <a href="/profil/">
-                    <i class="bi bi-bookmark"></i>
-                    <span>Мои книги</span>
-                </a>
-            </li>
-            {% endif %}
-
-            <div class="menu-divider"></div>
-
-            {% if user.is_authenticated %}
-            <li>
-                <a href="#">
-                    <i class="bi bi-person-circle"></i>
-                    <span>{{ user.username }}</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/logout/">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Выйти</span>
-                </a>
-            </li>
-            {% else %}
-            <li>
-                <a href="/login/">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span>Войти</span>
-                </a>
-            </li>
-            {% endif %}
-        </ul>
+<!-- Sidebar слева -->
+<div class="sidebar">
+    <div class="sidebar-logo">
+        <h4><i class="bi bi-book-half"></i> <span>НаПолку!</span></h4>
     </div>
 
-    <!-- Основной контент -->
-    <div class="main-content">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-xl-6">
-                <!-- Карточка формы -->
-                <div class="form-card">
-                    <!-- Заголовок -->
-                    <div class="form-header">
-                        <h2 class="mb-0" style="color: #fca2ca;">
-                            <i class="bi bi-book me-2"></i>
-                            {% if book %}
-                                Редактировать книгу
-                            {% else %}
-                                Добавить новую книгу
-                            {% endif %}
-                        </h2>
-                        <p class="text-white-50 mb-0 mt-2">
-                            {% if book %}
-                                Внесите изменения в информацию о книге
-                            {% else %}
-                                Заполните информацию о новой книге
-                            {% endif %}
-                        </p>
-                    </div>
+    <ul class="sidebar-menu">
+        <li>
+            <a href="/">
+                <i class="bi bi-house-door"></i>
+                <span>Главная</span>
+            </a>
+        </li>
 
-                    <!-- Тело формы -->
-                    <div class="form-body">
-                        <form method="post">
-                            {% csrf_token %}
+        <li>
+            <a href="/catalog/">  <!-- ← ИСПРАВИЛ /books/ на /catalog/ -->
+                <i class="bi bi-list-ul"></i>
+                <span>Все книги</span>
+            </a>
+        </li>
 
-                            <!-- Название книги -->
-                            <div class="mb-4">
-                                <label for="title" class="form-label">
-                                    <i class="bi bi-fonts"></i>Название книги *
+        <li>
+            <a href="/catalog/new/" class="active">  <!-- ← ИСПРАВИЛ /books/new/ на /catalog/new/ -->
+                <i class="bi bi-plus-circle"></i>
+                <span>Добавить книгу</span>
+            </a>
+        </li>
+
+        {% if user.is_authenticated %}
+        <li>
+            <a href="/profil/">  <!-- ← ИСПРАВИЛ # на /profil/ -->
+                <i class="bi bi-bookmark"></i>
+                <span>Мои книги</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <div class="menu-divider"></div>
+
+        {% if user.is_authenticated %}
+        <li>
+            <a href="#">
+                <i class="bi bi-person-circle"></i>
+                <span>{{ user.username }}</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/logout/">  <!-- ← ИСПРАВИЛ /accounts/logout/ на /logout/ -->
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Выйти</span>
+            </a>
+        </li>
+        {% else %}
+        <li>
+            <a href="/login/">  <!-- ← ИСПРАВИЛ /accounts/login/ на /login/ -->
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Войти</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+
+<!-- Основной контент -->
+<div class="main-content">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+            <!-- Карточка формы -->
+            <div class="form-card">
+                <!-- Заголовок -->
+                <div class="form-header">
+                    <h2 class="mb-0" style="color: #fca2ca;">
+                        <i class="bi bi-book me-2"></i>
+                        {% if book %}
+                        Редактировать книгу
+                        {% else %}
+                        Добавить новую книгу
+                        {% endif %}
+                    </h2>
+                    <p class="text-white-50 mb-0 mt-2">
+                        {% if book %}
+                        Внесите изменения в информацию о книге
+                        {% else %}
+                        Заполните информацию о новой книге
+                        {% endif %}
+                    </p>
+                </div>
+
+                <!-- Тело формы -->
+                <div class="form-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Название книги -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label">
+                                <i class="bi bi-fonts"></i>Название книги *
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="title"
+                                   name="title"
+                                   value="{{ book.title|default:'' }}"
+                                   placeholder="Введите полное название книги"
+                                   required
+                                   maxlength="200">
+                            <div class="form-text text-muted mt-1">
+                                Обязательное поле. Максимум 200 символов.
+                            </div>
+                        </div>
+
+                        <!-- Автор -->
+                        <div class="mb-4">
+                            <label for="author" class="form-label">
+                                <i class="bi bi-person"></i>Автор
+                            </label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="author"
+                                   name="author"
+                                   value="{{ book.author|default:'' }}"
+                                   placeholder="Введите имя автора">
+                            <div class="form-text text-muted mt-1">
+                                Если автор неизвестен, оставьте поле пустым
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Год издания -->
+                            <div class="col-md-6 mb-4">
+                                <label for="publication_year" class="form-label">
+                                    <i class="bi bi-calendar3"></i>Год издания
                                 </label>
-                                <input type="text"
+                                <input type="number"
                                        class="form-control"
-                                       id="title"
-                                       name="title"
-                                       value="{{ book.title|default:'' }}"
-                                       placeholder="Введите полное название книги"
-                                       required
-                                       maxlength="200">
-                                <div class="form-text text-muted mt-1">
-                                    Обязательное поле. Максимум 200 символов.
-                                </div>
+                                       id="publication_year"
+                                       name="publication_year"
+                                       value="{{ book.publication_year|default:'' }}"
+                                       placeholder="Например: 2023"
+                                       min="1000"
+                                       max="2100">
                             </div>
 
-                            <!-- Автор -->
-                            <div class="mb-4">
-                                <label for="author" class="form-label">
-                                    <i class="bi bi-person"></i>Автор
+                            <!-- Жанр -->
+                            <div class="col-md-6 mb-4">
+                                <label for="genre" class="form-label">
+                                    <i class="bi bi-tags"></i>Жанр
                                 </label>
-                                <input type="text"
-                                       class="form-control"
-                                       id="author"
-                                       name="author"
-                                       value="{{ book.author|default:'' }}"
-                                       placeholder="Введите имя автора">
-                                <div class="form-text text-muted mt-1">
-                                    Если автор неизвестен, оставьте поле пустым
+                                <select class="form-select" id="genre" name="genre">
+                                    <option value="">Выберите жанр...</option>
+                                    <option value="fiction" {% if book.genre==
+                                    'fiction' %}selected{% endif %}>
+                                    Художественная литература
+                                    </option>
+                                    <option value="fantasy" {% if book.genre==
+                                    'fantasy' %}selected{% endif %}>
+                                    Фэнтези
+                                    </option>
+                                    <option value="scifi" {% if book.genre==
+                                    'scifi' %}selected{% endif %}>
+                                    Научная фантастика
+                                    </option>
+                                    <option value="detective" {% if book.genre==
+                                    'detective' %}selected{% endif %}>
+                                    Детектив
+                                    </option>
+                                    <option value="romance" {% if book.genre==
+                                    'romance' %}selected{% endif %}>
+                                    Роман
+                                    </option>
+                                    <option value="biography" {% if book.genre==
+                                    'biography' %}selected{% endif %}>
+                                    Биография
+                                    </option>
+                                    <option value="history" {% if book.genre==
+                                    'history' %}selected{% endif %}>
+                                    История
+                                    </option>
+                                    <option value="science" {% if book.genre==
+                                    'science' %}selected{% endif %}>
+                                    Наука
+                                    </option>
+                                    <option value="self_help" {% if book.genre==
+                                    'self_help' %}selected{% endif %}>
+                                    Саморазвитие
+                                    </option>
+                                    <option value="other" {% if book.genre==
+                                    'other' %}selected{% endif %}>
+                                    Другое
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Описание -->
+                        <div class="mb-4">
+                            <label for="description" class="form-label">
+                                <i class="bi bi-text-paragraph"></i>Описание
+                            </label>
+                            <textarea class="form-control"
+                                      id="description"
+                                      name="description"
+                                      rows="5"
+                                      placeholder="Краткое описание сюжета, главных героев, ваши впечатления...">{{ book.description|default:'' }}</textarea>
+                            <div class="form-text text-muted mt-1">
+                                Поделитесь, о чем эта книга
+                            </div>
+                        </div>
+
+                        <!-- Обложка книги -->
+                        <div class="mb-5">
+                            <label class="form-label">
+                                <i class="bi bi-image"></i>Обложка книги
+                            </label>
+
+                            <!-- Превью текущей обложки -->
+                            {% if book and book.cover_image %}
+                            <div class="mb-3">
+                                <p class="text-white-50 mb-2">Текущая обложка:</p>
+                                <div class="cover-preview">
+                                    <img src="{{ book.cover_image.url }}"
+                                         style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="remove_cover"
+                                           name="remove_cover">
+                                    <label class="form-check-label text-fca2ca" for="remove_cover">
+                                        Удалить текущую обложку
+                                    </label>
                                 </div>
                             </div>
+                            {% endif %}
 
-                            <div class="row">
-                                <!-- Год издания -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="publication_year" class="form-label">
-                                        <i class="bi bi-calendar3"></i>Год издания
-                                    </label>
-                                    <input type="number"
-                                           class="form-control"
-                                           id="publication_year"
-                                           name="publication_year"
-                                           value="{{ book.publication_year|default:'' }}"
-                                           placeholder="Например: 2023"
-                                           min="1000"
-                                           max="2100">
-                                </div>
-
-                                <!-- Жанр -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="genre" class="form-label">
-                                        <i class="bi bi-tags"></i>Жанр
-                                    </label>
-                                    <select class="form-select" id="genre" name="genre">
-                                        <option value="">Выберите жанр...</option>
-                                        <option value="fiction" {% if book.genre == 'fiction' %}selected{% endif %}>
-                                            Художественная литература
-                                        </option>
-                                        <option value="fantasy" {% if book.genre == 'fantasy' %}selected{% endif %}>
-                                            Фэнтези
-                                        </option>
-                                        <option value="scifi" {% if book.genre == 'scifi' %}selected{% endif %}>
-                                            Научная фантастика
-                                        </option>
-                                        <option value="detective" {% if book.genre == 'detective' %}selected{% endif %}>
-                                            Детектив
-                                        </option>
-                                        <option value="romance" {% if book.genre == 'romance' %}selected{% endif %}>
-                                            Роман
-                                        </option>
-                                        <option value="biography" {% if book.genre == 'biography' %}selected{% endif %}>
-                                            Биография
-                                        </option>
-                                        <option value="history" {% if book.genre == 'history' %}selected{% endif %}>
-                                            История
-                                        </option>
-                                        <option value="science" {% if book.genre == 'science' %}selected{% endif %}>
-                                            Наука
-                                        </option>
-                                        <option value="self_help" {% if book.genre == 'self_help' %}selected{% endif %}>
-                                            Саморазвитие
-                                        </option>
-                                        <option value="other" {% if book.genre == 'other' %}selected{% endif %}>
-                                            Другое
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Кнопка отправки -->
-                            <div class="mt-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {% if book %}
-                                        Сохранить изменения
+                            <!-- Загрузка новой обложки -->
+                            <div class="file-upload mb-3">
+                                <button type="button" class="file-upload-btn">
+                                    <i class="bi bi-cloud-upload me-2"></i>
+                                    {% if book and book.cover_image %}
+                                    Заменить обложку
                                     {% else %}
-                                        Добавить книгу
+                                    Загрузить обложку
                                     {% endif %}
                                 </button>
+                                <input type="file"
+                                       id="cover_image"
+                                       name="cover_image"
+                                       accept="image/*">
                             </div>
-                        </form>
-                    </div>
+                            <div class="form-text text-muted">
+                                Рекомендуемый размер: 300×450 пикселей. Форматы: JPG, PNG.
+                            </div>
+
+                            <!-- Превью новой обложки -->
+                            <div id="new-cover-preview" class="cover-preview d-none">
+                                <img id="preview-image"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </div>
+
+                        <!-- Кнопки -->
+                        <div class="d-flex justify-content-between pt-3 border-top border-secondary">
+                            {% if book %}
+                            <a href="/catalog/book/?id={{ book.id }}" class="btn-cancel">  <!-- ← ИСПРАВИЛ ПУТЬ -->
+                                {% else %}
+                                <a href="/catalog/" class="btn-cancel">  <!-- ← ИСПРАВИЛ ПУТЬ -->
+                                    {% endif %}
+                                    <i class="bi bi-arrow-left me-1"></i>Отмена
+                                </a>
+
+                                <button type="submit" class="btn-submit">
+                                    <i class="bi bi-save me-2"></i>
+                                    {% if book %}
+                                    Сохранить изменения
+                                    {% else %}
+                                    Добавить книгу
+                                    {% endif %}
+                                </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Подсказки -->
+            <div class="card mt-4" style="background-color: #000; border: 1px solid #fca2ca;">
+                <div class="card-body">
+                    <h6 class="mb-3" style="color: #fca2ca;">
+                        <i class="bi bi-lightbulb me-2"></i>Советы по заполнению
+                    </h6>
+                    <ul class="mb-0 text-white-50" style="padding-left: 20px;">
+                        <li>Указывайте полное название книги, как на обложке</li>
+                        <li>Для автора можно указать "Неизвестный автор", если информация отсутствует</li>
+                        <li>Описание поможет другим пользователям понять, о чем книга</li>
+                        <li>Обложка не обязательна, но делает карточку книги привлекательнее</li>
+                        <li>Выберите наиболее подходящий жанр</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Превью загружаемой обложки
+    document.getElementById('cover_image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('new-cover-preview');
+                const img = document.getElementById('preview-image');
+                img.src = e.target.result;
+                preview.classList.remove('d-none');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Автоматическое заполнение года
+    const yearInput = document.getElementById('publication_year');
+    if (!yearInput.value) {
+        yearInput.value = new Date().getFullYear();
+    }
+
+    // Подсчет символов в описании
+    const description = document.getElementById('description');
+    const charCount = document.createElement('div');
+    charCount.className = 'form-text text-end text-muted mt-1';
+    description.parentElement.appendChild(charCount);
+
+    function updateCharCount() {
+        const length = description.value.length;
+        charCount.textContent = `${length} / 5000 символов`;
+    }
+
+    description.addEventListener('input', updateCharCount);
+    updateCharCount();
+
+    // Убираем выделение при фокусе
+    document.querySelectorAll('input, select, textarea, button').forEach(element => {
+        element.addEventListener('focus', function() {
+            this.style.outline = 'none';
+            this.style.boxShadow = 'none';
+        });
+    });
+</script>
 </body>
 </html>
