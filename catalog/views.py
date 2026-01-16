@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Count, Q
 from django.contrib import messages
-from .models import Book, UserStatus  # ← ВАШИ модели
+from .models import Book, UserStatus
 
 
 def home(request):
@@ -236,4 +236,4 @@ def my_books(request):
         'user_statuses': user_statuses,
         'status_groups': status_groups,
     }
-    return render(request, 'my_books.html', context)
+    return render(request, 'profil.html', context)
