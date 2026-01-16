@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django.contrib import messages
 from .models import Book
-from .forms import RegistrationForm, BookForm
+from catalog.forms import RegistrationForm, BookForm
 
 def main_page(request):
     # Главная страница со списком пользователей и количеством книг
