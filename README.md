@@ -18,3 +18,4 @@ pip install django pillow
 python manage.py runserver
 
 5. Откройте в браузере: http://127.0.0.1:8000/
+Ссылка на видео защиты: https://disk.yandex.ru/i/Cp13Cp1z_pphhw
